@@ -1,24 +1,21 @@
 import * as assert from 'assert';
 import { suite, test } from 'mocha';
 
-import { NAVObject } from '../../NAVObject'
-import { WorkspaceFiles } from '../../WorkspaceFiles'
-import * as myExtension from '../../extension';
-import * as NAVTestObjectLibrary from './NAVTestObjectLibrary'
+import { NAVObject } from '../../NAVObject';
+import * as NAVTestObjectLibrary from './NAVTestObjectLibrary';
 import { Settings } from '../../Settings';
-import { settings } from 'cluster';
+import { error } from 'console';
 
 suite("NAVObject ObjectNamePrefix Tests", () => {
     test("Object without prefix - No prefix to set", () => {
-        let testSettings = Settings.GetConfigSettings(null)
+        let testSettings = Settings.GetConfigSettings(null);
         testSettings[Settings.ObjectNamePrefix] = null;
 
-        let navTestObject = NAVTestObjectLibrary.getPageNoPrefixCorrectNameWithActions()
-        let navObject = new NAVObject(navTestObject.ObjectText, testSettings, navTestObject.ObjectFileName)
+        let navTestObject = NAVTestObjectLibrary.getPageNoPrefixCorrectNameWithActions();
+        let navObject = new NAVObject(navTestObject.ObjectText, testSettings, navTestObject.ObjectFileName);
 
-        assert.strictEqual(navObject.objectFileName, navObject.objectFileNameFixed);
-        assert.strictEqual(navObject.objectActions[0].name, navObject.objectActions[0].nameFixed)
-
+        assert.notStrictEqual(navObject.objectFileName, navObject.objectFileNameFixed);
+        assert.strictEqual(navObject.objectActions[0].name, navObject.objectActions[0].nameFixed);
     });
 
     test("Page without prefix - set prefix", () => {
