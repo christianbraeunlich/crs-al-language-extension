@@ -20,6 +20,7 @@ export function activate(context: vscode.ExtensionContext) { //is called when yo
     // provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json    
     let commandlist = [
+        vscode.commands.registerCommand('crs.ManageTestDepdendency', CRSFunctions.ManageTestDepdendency),
         vscode.commands.registerCommand('crs.InstallWaldosModules', CRSFunctions.InstallWaldosModules),
         vscode.commands.registerCommand('crs.CreateGraphVizDependencyGraph', CRSFunctions.CreateGraphVizDependencyGraph),
 

@@ -52,6 +52,10 @@
     "contributes": {
         "commands": [
             {
+                "command": "crs.ManageTestDepdendency",
+                "title": "Create aliases from vscode's built-in commands"
+            },
+            {
                 "command": "crs.InstallWaldosModules",
                 "title": "CRS: Install Waldo's Modules"
             },
