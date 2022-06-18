@@ -16,5 +16,5 @@ jobs:
           node-version: 14
       -  run: yarn install
       -  run: yarn test
-      -  run: yarn global add vsce
+      -  run: yarn add vsce
       -  run: vsce package
