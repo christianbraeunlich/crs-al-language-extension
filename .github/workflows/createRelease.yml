@@ -17,10 +17,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 14
-      - run: npm install
-      - run: npm run lint
-      - run: npm test
-      - run: npm install -g vsce
+      - run: yarn install
+      - run: yarn test
+      - run: yarn install -g vsce
       - run: vsce package
       - run: |
           $path = (Get-ChildItem '*.vsix')
