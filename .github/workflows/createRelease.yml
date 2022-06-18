@@ -22,7 +22,8 @@ jobs:
           "VSIX_PATH=$path" >> $env:GITHUB_ENV
           "VSIX_NAME=$name" >> $env:GITHUB_ENV
           $json = (Get-Content 'package.json' | ConvertFrom-Json)
-          "VERSION=v$json.version" >> $env:GITHUB_ENV
+          $version = $json.version
+          "VERSION=v$version" >> $env:GITHUB_ENV
       - uses: actions/create-release@v1
         id: create_release
         env:
