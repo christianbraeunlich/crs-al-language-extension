@@ -14,7 +14,7 @@ jobs:
           node-version: 14
       - run: yarn install
       - run: yarn test
-      - run: yarn add vsce
+      - run: npm install -g vsce
       - run: vsce package
       - run: |
           $path = (Get-ChildItem '*.vsix')
