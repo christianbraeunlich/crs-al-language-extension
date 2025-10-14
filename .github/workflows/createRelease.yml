@@ -7,6 +7,8 @@ jobs:
   release-and-publish:
     name: Release and Publish
     runs-on: windows-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -24,22 +26,16 @@ jobs:
           $json = (Get-Content 'package.json' | ConvertFrom-Json)
           $version = $json.version
           "VERSION=v$version" >> $env:GITHUB_ENV
-      - uses: actions/create-release@v1
+      - name: Create or update Release
         id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ env.VERSION }}
+          name: "Release ${{ env.VERSION }}"
+          body: "See [Change Log](https://github.com/waldo1001/crs-al-language-extension/blob/master/CHANGELOG.md) for details."
+          allowUpdates: true
+          artifacts: "${{ env.VSIX_PATH }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.VERSION }}
-          release_name: "Release ${{ env.VERSION }}"
-          body: See [Change Log](https://github.com/waldo1001/crs-al-language-extension/blob/master/CHANGELOG.md) for details.
-          draft: false
-          prerelease: false
-      - uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.VSIX_PATH }}
-          asset_name: ${{ env.VSIX_NAME }}
-          asset_content_type: application/zip
+      # artifact upload is handled by ncipollo/release-action via the `artifacts` input
       - run: vsce publish -p ${{ secrets.VSCE_TOKEN }}
