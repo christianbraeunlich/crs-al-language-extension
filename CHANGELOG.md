@@ -1,5 +1,13 @@
 # Change Log
 All notable changes to the "crs-al-language-extension" extension:
+## [1.5.35] - 2025-10-14
+- Affix Objectname - Tests & Rename by [Kilian Seizinger](https://github.com/pri-kise) - [#318](https://github.com/waldo1001/crs-al-language-extension/pull/318)
+- Add Affix Check for Object Name by [Kilian Seizinger](https://github.com/pri-kise) - [#314](https://github.com/waldo1001/crs-al-language-extension/pull/314)
+- Fixed GitHub Actions workflow to handle existing releases and updated integration tests to use locally installed VS Code by [GitHub Copilot](https://github.com/features/copilot)
+- Updated Node.js version in GitHub Actions workflow to 22
+- Updated dependencies: @types/node, mocha, and various security updates
+Thanks so much!
+
 ## [1.5.34] - 2024-12-19
 Added Support for AppSourceCop Setting MandatoryAffixes by [Kilian Seizinger](https://github.com/pri-kise)
 Exclude Namespace prefix by [Vito Iacovone](https://github.com/vdevmt)
