@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as fs from 'fs';
 
 import { runTests } from '@vscode/test-electron';
 
@@ -12,17 +13,28 @@ async function main() {
 		// Passed to --extensionTestsPath
 		const extensionTestsPath = path.resolve(__dirname, './suite/index');
 
-		// NOTE: Integration tests are currently disabled locally due to VS Code download/extraction issues
-		// They run successfully in CI environment. Run unit tests manually if needed.
-		console.log('✓ Compilation successful');
-		console.log('ℹ Integration tests skipped (run in CI environment)');
-		console.log('  To test locally, run the extension in debug mode (F5)');
+		// Try to use the installed VS Code executable
+		const possibleVSCodePaths = [
+			'C:\\Users\\' + process.env.USERNAME + '\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe',
+			'C:\\Program Files\\Microsoft VS Code\\Code.exe',
+			'C:\\Program Files (x86)\\Microsoft VS Code\\Code.exe'
+		];
 
-		// Uncomment to run integration tests (requires working VS Code download)
-		// await runTests({ 
-		// 	extensionDevelopmentPath, 
-		// 	extensionTestsPath 
-		// });
+		let vscodeExecutablePath: string | undefined;
+		for (const vscodePath of possibleVSCodePaths) {
+			if (fs.existsSync(vscodePath)) {
+				vscodeExecutablePath = vscodePath;
+				console.log('Using installed VS Code at:', vscodePath);
+				break;
+			}
+		}
+
+		// Download VS Code, unzip it and run the integration test
+		await runTests({
+			vscodeExecutablePath,
+			extensionDevelopmentPath,
+			extensionTestsPath
+		});
 	} catch (err) {
 		console.error('Failed to run tests');
 		process.exit(1);
